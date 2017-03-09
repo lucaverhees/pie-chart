@@ -2,22 +2,46 @@ d3.json("./data/pie-chart.json", function(data) {
 
     // range of slider
     var data_length = Object.keys(data).length - 1;
-
-    // pie chart radius
-    var radius = 180;
-
-    // setup the margins so we don't clip the outter labels
+ 
+    var radius
+    setRadius();
     var margin = {
-        top: 100,
-        right: 100,
-        bottom: 100,
-        left: 175
-    };
+                top: 100,
+                right: 100,
+                bottom: 100,
+                left: 175
+            };
+    var arc = d3.svg.arc()
+                .outerRadius(radius)
+                .innerRadius(radius / 3);
+    
     var canvasWidth = radius * 2 + margin.left + margin.right,
         canvasHeight = radius * 2 + margin.top + margin.bottom;
 
+    function setRadius() {
+        var width = window.innerWidth;
+        
+        if (width < 520) { radius = width/6.5; }
+        else if (width < 1024) { radius = width/5; }
+        else { radius = 150; }
+    } 
+    function resizeChart() {
+        setRadius()
+        
+        arc = d3.svg.arc()
+                .outerRadius(radius)
+                .innerRadius(radius / 3);
+        
+        canvasWidth = radius * 2 + margin.left + margin.right;
+        canvasHeight = radius * 2 + margin.top + margin.bottom;
+        
+        showValues();
+        pieChart();
+        showValues();
+        updatePieChart();
+    }
+    window.addEventListener('resize', resizeChart);
     // color scheme
-    //var color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#ffcc00"]);   
     var color = d3.scale.ordinal().range(["#F44336", "#FF9800", "#CDDC39", "#4CAF50", "#00BCD4",    "#2196F3", "#9C27B0", "#E91E63" ]);
 
     var pi = Math.PI; // 3.14
@@ -28,11 +52,6 @@ d3.json("./data/pie-chart.json", function(data) {
             return d.value;
         })
         .sort(null);
-
-    // arc object
-    var arc = d3.svg.arc()
-        .outerRadius(radius)
-        .innerRadius(radius / 3);
 
     // initialize the sliders, events and pie chart
     init();
@@ -65,7 +84,7 @@ d3.json("./data/pie-chart.json", function(data) {
         showValues();
         updatePieChart();
 
-      });
+        });
     }
 
     // get JSON data

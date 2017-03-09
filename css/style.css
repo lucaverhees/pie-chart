@@ -9,15 +9,13 @@ body {
 
 #main-container {
     margin: auto;
-    width: 1200px;
-    padding: 40;
+    width: 100%;
 }
 #rangebox {
-    float: left;
-    width: 400px;
-    margin: 90px 30px 30px;
-    padding-top: 50px;
+    width: 100%;
+    padding: 0px 10px;
 }
+
 #rangebox h1 {
     font-size: 1.5em;
     font-weight: 400;
@@ -27,11 +25,16 @@ body {
 }
 #rangebox input.range {
     -webkit-appearance: none;
-    width: 350px;
+    width: 100%;
     height: 10px;
     border-radius: 5px;
     background: #d7dcdf;
     outline: none;
+    margin: 25px auto 5px;
+    display: block;
+}
+#rangebox .range_value {
+    text-align: center;
 }
 #rangebox .range::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -76,14 +79,20 @@ input::-moz-focus-outer {
 }
 
 #pie {
-    float: left;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#pie svg {
+    display: block;
+    margin: 0 auto;
 }
 #pie path.slice {
     opacity: .8;
 }
 #pie text.label {
     opacity: 1;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 #pie polyline {
     opacity: .15;
@@ -98,13 +107,69 @@ input::-moz-focus-outer {
 input::-moz-focus-inner {
     border: 0;
 }
-#rangebox input.range {
-    margin: 20px 0;
-}
 .clearfix:after {
    content: " "; /* Older browser do not support empty content */
    visibility: hidden;
    display: block;
    height: 0;
    clear: both;
+}
+
+
+@media only screen and (min-width: 640px) { 
+    #main-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+    #rangebox input.range {
+        width: 400px;
+        margin: 25px 0 10px;
+    }
+    #rangebox .range_value {
+        text-align: left;
+    }
+}
+
+@media only screen and (min-width: 768px) { 
+    #main-container {
+        width: 75%;
+        margin: 0 auto;
+    }
+    #rangebox input.range {
+        width: 400px;
+        margin: 25px 0 10px;
+    }
+    #rangebox .range_value {
+        text-align: left;
+    }
+    #pie text.label {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (min-width: 1024px) { 
+    #main-container {
+        width: 90%;
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+    #rangebox {
+        float: left;
+        width: 40%;
+        max-width: 400px;
+        margin: 90px 0 30px;
+        padding-top: 50px;
+        display: inline;
+    }
+    
+    #rangebox input.range {
+        width: 380px;
+    }
+    
+    
+    #pie {
+        float: left;
+        width: 60%;
+    }
 }
