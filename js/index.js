@@ -26,12 +26,19 @@ d3.json("./data/pie-chart.json", function(data) {
         else { radius = 150; }
     } 
     function resizeChart() {
+        var width = window.innerWidth;
         setRadius()
         
-        arc = d3.svg.arc()
-                .outerRadius(radius)
-                .innerRadius(radius / 3);
-        
+        if (width < 520) { 
+            arc = d3.svg.arc()
+                    .outerRadius(radius)
+                    .innerRadius(radius / 5);
+        } else {
+            arc = d3.svg.arc()
+                    .outerRadius(radius)
+                    .innerRadius(radius / 3);
+        }
+
         canvasWidth = radius * 2 + margin.left + margin.right;
         canvasHeight = radius * 2 + margin.top + margin.bottom;
         
@@ -39,8 +46,14 @@ d3.json("./data/pie-chart.json", function(data) {
         pieChart();
         showValues();
         updatePieChart();
+        
+        outerArc = d3.svg.arc()
+        .innerRadius(radius + 50)
+        .outerRadius(radius * .95);
+        updateLabelLines();
     }
     window.addEventListener('resize', resizeChart);
+    
     // color scheme
     var color = d3.scale.ordinal().range(["#F44336", "#FF9800", "#CDDC39", "#4CAF50", "#00BCD4",    "#2196F3", "#9C27B0", "#E91E63" ]);
 
@@ -229,7 +242,7 @@ d3.json("./data/pie-chart.json", function(data) {
 
     /* ------- SLICE TO TEXT POLYLINES -------*/
     var outerArc = d3.svg.arc()
-        .innerRadius(radius +50)
+        .innerRadius(radius + 50)
         .outerRadius(radius * .95);
 
     function midAngle(d) {
@@ -250,6 +263,7 @@ d3.json("./data/pie-chart.json", function(data) {
                 this._current = interpolate(0);
                 return function(t) {
                     var d2 = interpolate(t);
+                    var pos = 0;
                     var pos = 0;
                     return [arc.centroid(d2), outerArc.centroid(d2)];
                 };
